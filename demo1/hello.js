@@ -1,9 +1,11 @@
-console.log("hello node");
-/* 
+'use strict'
 
-    {
-        123
-    }
+var s = 'hello';
+
+function greet(name) {
+    console.log(s + ',' + name + 'i');
+}
+
+module.exports = greet;
 
 
-*/
