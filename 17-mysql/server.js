@@ -13,4 +13,4 @@ db.query("SELECT * FROM `user_table`;",(err,data)=>{
     }else{
         console.log('成功了',data);
     }
-})
+}) 
