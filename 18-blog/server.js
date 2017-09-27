@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const consolidate = require('consolidate');
 const mysql = require('mysql');
+const common = require('./libs/common');
 
 // 连接池
 const db = mysql.createPool({ host: 'localhost', user: 'root', password: '123456', database:'blog'});
@@ -43,11 +44,47 @@ server.get('/',(req,res)=>{
             console.log(err);
             res.status(500).send('database error').end();
         }else{
-            console.log(data);
-            res.render('index.ejs',{banner:data});
+            res.banners = data;
+            next();
         }
     })
 });
+
+server.get('/',(req,res,next)=>{
+    db.query('SELECT ID,title,summery FROM article_table',(err,data)=>{
+        if (err) {
+            res.status(500).send('database error').end();
+        }else{
+            res.articles = data;
+            next();
+        }
+    })
+});
+
+server.get('/',(req,res)=>{
+    res.render('index.ejs',{banners:res.banners,articles:res.articles});
+})
+
+server.get('/article',(res,req)=>{
+    if (req.query.id) {
+        db.query(`SELECT * FROM article_table WHERE ID=${req.query.id}`,(err,data)=>{
+            if (err) {
+                res.statusCode(500).send('数据有问题').end();
+            }else{
+                var articleDate = data[0];
+                articleDate.sDate = common.time2date(articleData.post_time);
+                articleDate.content = articleData.content.replace(/^/gm,'<p>').replace(/$/gm,'</p>');
+
+                res.render('conText.ejs',{
+                    article_data:articleData
+                })
+            }
+        })
+    }else{
+        res.statusCode(404).send('您请求的文章不存在').end();
+    }
+})
+
 
 // static 数据
 server.use(static('./www'));
