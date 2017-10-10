@@ -14,3 +14,6 @@ db.query("SELECT * FROM `user_table`;",(err,data)=>{
         console.log('成功了',data);
     }
 }) 
+
+// 数据库 指令 测试
+SELECT * FROM students GROUP BY CLASS
