@@ -2,6 +2,8 @@ const express = require('express');
 const static = require('express-static');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const multer = require('multer');
+const multerObj=multer({dest: './static/upload'});
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const consolidate = require('consolidate');
@@ -32,4 +34,12 @@ server.use(cookieParser());
 
 // 3. 模板
 server.engine('html',consolidate.ejs);
-server.set
+server.set('view','template');
+server.set('view engine','html');
+
+// 4. route
+server.use('/article/',require('./route/1.js')());
+server.use('/blog/',require('./route/2.js')());
+
+// 5. default
+server.use(static('./static/'));
