@@ -2,7 +2,7 @@ const express=require('express');
 const common = require('../libs/common');
 const mysql = require('mysql');
 
-var db = mysql.createPool({host:'localhost',user:'root',password:'123456',database:'`blog`'});
+var db = mysql.createPool({host:'localhost',user:'root',password:'123456',database:'blog'});
 
 module.exports=function (){
   var router=express.Router();
