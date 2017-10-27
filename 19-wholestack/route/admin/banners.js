@@ -44,8 +44,47 @@ module.exports = function (params) {
                 }else{
                     res.render('admin/banners.ejs',{banners});
                 }
-            })
+            });
+            break;
         }
+    });
+
+    router.post('/',(req,res)=>{
+        var title = req.body.title;
+        var description = req.body.description;
+        var href = req.body.href;
+
+        if (!title || !descrition || !href) {
+            res.status(400).send('arg error').end();
+        }else{
+            if (req.body.mod_id) {
+                db.query(`UPDATE banner_table SET \
+                    title = '${req.body.title}',\
+                    href = '${req.body.href}'\
+                    WHERE ID = ${req.body.mod_id}`,
+                    (err,data) =>{
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send('database error').end();
+                        }else{
+                            res.redirect('/admin/banners');
+                        }
+                    }
+                )
+            }else{
+                db.query(`INSERT INFO banner_table (title,description,href) VALUE('${title}','${description}','${href}'`,(err,data)=>{
+                    if (err) {
+                        console.log(err);
+                        res.status(500).send('database error').end();
+                    }else{
+                        res.redirect('/admin/banners');
+                    }
+                })
+            }
+        }
+
+
+
     })
     
 }
