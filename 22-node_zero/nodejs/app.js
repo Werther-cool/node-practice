@@ -16,10 +16,14 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// 定义日志和输出级别
 app.use(logger('dev'));
+// 定义数据解析器
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// 定义cookie解析器
 app.use(cookieParser());
+// 定义静态文件目录
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
